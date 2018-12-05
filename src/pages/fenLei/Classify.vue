@@ -12,30 +12,30 @@
     </div>
 
     <div class="main">
+        <div class="main-left">
+          <ul>
+            <li class="item active"><a href="javascript:;">12.12专区</a></li>
+            <li class="item"><a href="javascript:;">冬季专区</a></li>
+            <li class="item"><a href="javascript:;">爆品专区</a></li>
+            <li class="item"><a href="javascript:;">新品专区</a></li>
+            <li class="item"><a href="javascript:;">居家</a></li>
+            <li class="item"><a href="javascript:;">鞋包配饰</a></li>
+            <li class="item"><a href="javascript:;">服装</a></li>
+            <li class="item"><a href="javascript:;">电器</a></li>
+            <li class="item"><a href="javascript:;">洗护</a></li>
+            <li class="item"><a href="javascript:;">饮食</a></li>
+            <li class="item"><a href="javascript:;">餐厨</a></li>
+            <li class="item"><a href="javascript:;">婴童</a></li>
+            <li class="item"><a href="javascript:;">文体</a></li>
+          </ul>
+        </div>
 
 
-      <div class="main-left">
-        <ul>
-          <li class="item active"><a href="javascript:;">12.12专区</a></li>
-          <li class="item"><a href="javascript:;">冬季专区</a></li>
-          <li class="item"><a href="javascript:;">爆品专区</a></li>
-          <li class="item"><a href="javascript:;">新品专区</a></li>
-          <li class="item"><a href="javascript:;">居家</a></li>
-          <li class="item"><a href="javascript:;">鞋包配饰</a></li>
-          <li class="item"><a href="javascript:;">服装</a></li>
-          <li class="item"><a href="javascript:;">电器</a></li>
-          <li class="item"><a href="javascript:;">洗护</a></li>
-          <li class="item"><a href="javascript:;">饮食</a></li>
-          <li class="item"><a href="javascript:;">餐厨</a></li>
-          <li class="item"><a href="javascript:;">婴童</a></li>
-          <li class="item"><a href="javascript:;">文体</a></li>
-        </ul>
-      </div>
       <div class="main-right">
         <div class="main-right-img">
           <img src="http://yanxuan.nosdn.127.net/52855d9a0c1f738f26ac125913af0012.jpg" alt="">
         </div>
-        <!--   <h3>商品分类</h3>-->
+     <!--   <h3>商品分类</h3>-->
         <div class="main-right-cate">
           <ul>
             <li>
@@ -119,8 +119,6 @@
           </ul>
         </div>
       </div>
-
-
     </div>
   </div>
 
@@ -134,7 +132,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-  /*@import "../../common/stylus/mixins.styl"*/
+  @import "../../common/stylus/mixins.styl"
   .layout{
     width 100%
   }
@@ -199,19 +197,19 @@
     position rotation
   }
   .item{
-    display: block;
-    color: #ab2b2b;
-    font-size: .37333rem;
-    line-height: .66667rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-top: .53333rem;
-    width: 100%;
-    height: .66667rem;
-    text-align: center;
-    border: none;
-  }
+      display: block;
+      color: #ab2b2b;
+      font-size: .37333rem;
+      line-height: .66667rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-top: .53333rem;
+      width: 100%;
+      height: .66667rem;
+      text-align: center;
+      border: none;
+    }
   .item.active:before {
     content: ' ';
     position: absolute;
