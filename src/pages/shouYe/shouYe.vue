@@ -1,5 +1,7 @@
+
 <template>
   <div class="g-row m-index">
+    <!--导航-->
     <div class="m-indexHd">
       <div class="line">
         <a href="javascript:;" class="logo"></a>
@@ -84,172 +86,76 @@
       <div>
       </div>
     </div>
-    <div class="slideWarp">
+    <!--轮播图-->
+    <div class="slideWarp" >
       <div class="m-slide m-indexSlide">
         <div class="slide-con">
           <div class="swiper-container">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/850c005113e5becbfd98d797b8a2101a.jpg?imageView&quality=75&thumbnail=750x0">
+            <div class="swiper-wrapper" v-if="lbt.length>0">
+              <div class="swiper-slide" v-for="(lbts,index) in lbt" :key="lbts.id">
+                <img :src= "lbts.picUrl"  >
               </div>
-              <div class="swiper-slide ">
-                <img
-                  src="https://yanxuan.nosdn.127.net/1d66a50452354fa28b045853c078cbe3.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide ">
-                <img
-                  src="https://yanxuan.nosdn.127.net/fda101d5e6beeb56d0ff8245139ff30b.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide ">
-                <img
-                  src="https://yanxuan.nosdn.127.net/03d8a81e7be4bb1a8d44dc2118f944a4.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/e0c3e253dcfdb170bda823ac5b71247e.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/018b7902a3fb1e48dbdd8b7bb42674aa.jpg?watermark&type=1&gravity=northwest&dx=0&dy=0&image=YTRhMmIzYmI1Y2I1YTc4ZGM5MmE3Nzk2NzAwYTFiNjgucG5n|imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/a209d8ec4efb502140d086773cd04c76.jpg?watermark&type=1&gravity=northwest&dx=0&dy=0&image=YTRhMmIzYmI1Y2I1YTc4ZGM5MmE3Nzk2NzAwYTFiNjgucG5n|imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/5a2289149a59ca24ef2256674542e4cb.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/850c005113e5becbfd98d797b8a2101a.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
-              <div class="swiper-slide">
-                <img
-                  src="https://yanxuan.nosdn.127.net/1d66a50452354fa28b045853c078cbe3.jpg?imageView&quality=75&thumbnail=750x0"
-                  alt="">
-              </div>
+
             </div>
-            <div class="swiper-pagination"></div>
+            <div class="swiper-pagination">
+            </div>
 
           </div>
         </div>
 
       </div>
     </div>
+
+
+    <!--品牌列表-->
     <div class="m-indexServicePolicy newUser active">
       <ul class="g-grow">
-        <li class="item">
+        <li class="item" v-for="(zys,index) in zy" :key="zys.index">
           <a href="javascript:;">
             <i class="u-icon u-icon-servicePolicy-index"
-               style="background-image:url(http://yanxuan.nosdn.127.net/cae45612b8aae577d8bd73338e2fc02c.png);"></i>
-            <span class="text">网易自营品牌</span>
+               :style="`background-image:url(${zys.icon})`"></i>
+            <span class="text">{{zys.desc}}</span>
           </a>
         </li>
-        <li class="item">
-          <a href="javascript:;">
-            <i class="u-icon u-icon-servicePolicy-index"
-               style="background-image:url(http://yanxuan.nosdn.127.net/cae45612b8aae577d8bd73338e2fc02c.png);"></i>
-            <span class="text">30天无忧退货</span>
-          </a>
-        </li>
-        <li class="item">
-          <a href="javascript:;">
-            <i class="u-icon u-icon-servicePolicy-index"
-               style="background-image:url(http://yanxuan.nosdn.127.net/cae45612b8aae577d8bd73338e2fc02c.png);"></i>
-            <span class="text">48小时快速退款</span>
-          </a>
-        </li>
-
       </ul>
     </div>
 
 
-
-    <div>
-
-    </div>
-
+    <!--双十二活动-->
     <div class="m-kingKongModule">
-      <div class="m-carousel ">
+      <div class="m-carousel">
         <ul>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/31831ada59dc10319cba195620ed9ed0.png" alt="">
-            <span>服装</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/45833c71d4b0d0de0755a20f893fa25f.png" alt="">
-            <span>电器</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/2fde77529e90a26427d1c02faa3bfbf6.png" alt="">
-            <span>婴童</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/15e364ca93313bbd6e87dfcba7ae7b74.png" alt="">
-            <span>饮商</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/793bca13bb931475ea7f0c00299362bb.png" alt="">
-            <span>洗护</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/fc3e359da08577228354da61ea912c99.png" alt="">
-            <span>餐厨</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/97eb6fd2c7ea76a3a42b9dafa3bd6543.png" alt="">
-            <span>文体</span>
-          </li>
-          <li>
-            <img src="http://yanxuan.nosdn.127.net/db5e2ce8c66f7db3f4282ecb24a64236.png" alt="">
-            <span>超级会员</span>
+          <li v-for="(good,index) in goods.kingKongList" :key="index">
+            <img  :src="good.picUrl" alt="">
+            <span>{{good.text}}</span>
           </li>
         </ul>
       </div>
 
 
-      <div class="m-indexBigPromotionModule"
-           style="width:10rem;height:4.408888888888889rem;background:url(https://yanxuan.nosdn.127.net/15435901919894506.png?imageView&crop=0_0_750_496);background-size:100% 100%;">
+      <div class="m-indexBigPromotionModule">
         <div>
-          <a href="javascript:;" class="promItem" style="width:100%;height:100%;"><img
-            src="https://yanxuan.nosdn.127.net/15435902145614507.gif" style="width: 100%; height:100%;"></a>
+          <a href="javascript:;" class="promItem" style="width:100%;height:100%;">
+            <img :src="event[0]" style="width: 100%; height:100%;">
+          </a>
         </div>
-        <div
-          style="width:10rem;height:5.226666666666667rem;background:url(https://yanxuan.nosdn.127.net/15435901919894506.png?imageView&crop=0_496_750_588);background-size:100% 100%;">
+        <div>
           <div class="m-lazyload img m-lazyload-loaded">
-            <img src="https://yanxuan.nosdn.127.net/15435902383484509.png"
-                 style="width: 187px;height: 196px;float:left;">
-            <img src="https://yanxuan.nosdn.127.net/15435902616394510.png"
-                 style="width: 187px;height: 98px;float:right;">
-            <img src="https://yanxuan.nosdn.127.net/15439064549673720.png" alt="" style="width: 187px;height: 98px;">
+            <img :src="event[1]" style="width: 187px;height: 196px;float:left;">
+            <img :src="event[2]" style="width: 187px;height: 98px;float:right;">
+            <img :src="event[3]" alt="" style="width: 187px;height: 98px;">
           </div>
         </div>
-        <div
-          style="width:10rem;height:2.7111111111111112rem;background:url(https://yanxuan.nosdn.127.net/15435901919894506.png?imageView&crop=0_1084_750_305);background-size:100% 100%;">
-          <img src="https://yanxuan.nosdn.127.net/15438955793172733.png" style="width: 187px;height: 98px;float:left;">
-          <img src="https://yanxuan.nosdn.127.net/15435903918604513.png" style="width: 187px;height: 98px;float:left;">
+        <div>
+          <img :src="event[4]" style="width: 187px;height: 98px;float:left;">
+          <img :src="event[5]" style="width: 187px;height: 98px;float:left;">
         </div>
-        <div
-          style="width: 100%; height: 0.133333rem; background: url(https://yanxuan.nosdn.127.net/15435901919894506.png?imageView&crop=0_1389_750_15) 0% 0% / 100% 100%;"></div>
       </div>
 
 
     </div>
 
-
-
-
-
+    <!--新人专享-->
     <div class="m-freshmanModule m-indexFloor">
       <div class="moduleTitle">
         <span>新人专享礼</span>
@@ -265,11 +171,11 @@
           </div>
         </a>
         <div class="right">
-          <div class="module1">
+          <div class="module1" v-for="(xrs,index) in xr" :key="xrs.id">
             <a href="javascript:;" class="m-activityItem" style="background-size:100% 100%;">
               <div class="picWrap">
                 <div class="m-lazyload pic m-lazyload-loaded">
-                  <img src="http://yanxuan.nosdn.127.net/21712dc8c9b39049c0731613905ca56a.png" alt="">
+                  <img :src="xrs.picUrl" alt="">
                 </div>
                 <div class="discount">
                   <div class="line1"></div>
@@ -277,59 +183,74 @@
                 </div>
               </div>
               <div class="cnt">
-                <div class="title">福利社</div>
-                <div class="subTitle">今日特价</div>
-              </div>
-            </a>
-          </div>
-          <div class="module2">
-            <a href="javascript:;" class="m-activityItem"
-               style="background-size:100% 100%;">
-              <div class="picWrap">
-                <div class="m-lazyload pic m-lazyload-loaded">
-                  <img src="http://yanxuan.nosdn.127.net/c95a4d1daa62d7a9004208752a1a2098.png">
-                </div>
-              </div>
-              <div class="cnt">
-                <div class="title">新人拼团</div>
-                <div class="subTitle"></div>
-                <div class="tag">1元起包邮</div>
+                <div class="title">{{xrs.title}}</div>www
+                <div class="subTitle">{{xrs.subTitle}}</div>
               </div>
             </a>
           </div>
         </div>
       </div>
     </div>
+
+
+
+
   </div>
 
 </template>
+
 
 <script>
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
   import BScroll from 'better-scroll'
-
+  import {mapState} from "vuex"
   export default {
     components: {},
     // 必须在列表数据显示之后创建才能正常形成轮播
     mounted() {
-      new Swiper('.swiper-container', {
+      this.$store.dispatch("getLbt")
+      this.$store.dispatch("getZy")
+      this.$store.dispatch("getGoods")
+      this.$store.dispatch("getEvent")
+      this.$store.dispatch("getEvent")
+      this.$store.dispatch("getXr")
 
-        loop: true,// 循环模式选项
-        // 如果需要分页器
-        pagination: {
-          el: '.swiper-pagination',
-        },
-        autoplay: true //自动播放
-      })
+    },
+    computed:{
+      ...mapState(["lbt","zy","goods","event","xr"])
+    },
 
-      new BScroll('.pic-wrapper', {
-        click: true,
-        scrollX: true,  //水平滑动
-      })
+    //页面加载之后加载
+    watch:{
+
+      lbt(){
+
+        this.$nextTick(()=>{
+
+          new Swiper('.swiper-container', {
+            loop: true,// 循环模式选项
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination',
+            },
+            autoplay: true //自动播放
+          })
+          new BScroll('.pic-wrapper', {
+            click: true,
+            scrollX: true,  //水平滑动
+          })
+
+        })
+      }
     }
   }
 </script>
+
+
+
+
+
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   @import "../../common/stylus/minxins.styl"
@@ -591,9 +512,10 @@
   }
 
   .swiper-pagination {
-    position absolute
-    text-align center
-    z-index 10
+    position: absolute;
+    z-index: 20;
+    bottom: 10px;
+    width: 100%;
   }
 
   .m-indexServicePolicy.active {
