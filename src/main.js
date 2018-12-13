@@ -15,6 +15,10 @@ import App from './App.vue'
 import router from "./router"
 import store from "./store"
 import "./mock/mokServer"
+import {Button} from "mint-ui"
+// 注册全局组件
+Vue.component(Button.name, Button)
+
 
 Vue.config.productionTip = false
 

@@ -1,190 +1,244 @@
 <template>
   <div>
-    <div class="head" >
+    <div class="head">
       <div class="psc-m-topbar">
         <div class="psc-row">
           <div class="psc-m-hamburger">
-            <span href="" class="psc-u-nav-link">
+            <a href="#" class="psc-u-nav-link">
               <i class="psc-icon psc-icon-house"></i>
-            </span>
+            </a>
           </div>
           <div class="m-head-tab">
-            <span href="" data-yxstat="{}" class="item active">发现</span>
-            <span href=""
-               class="item">甄选家</span>
-          </div><!---->
+            <a href="#" data-yxstat="{}" class="item active">发现</a>
+            <a href="#"
+               data-yxstat="{&quot;event_name&quot;:&quot;view_recognition_top_expert&quot;,&quot;event_action&quot;:&quot;view&quot;,&quot;page_name&quot;:&quot;recognition&quot;}"
+               class="item">甄选家</a>
+          </div>
+
           <div class="psc-m-right">
-            <span href="" class="psc-u-nav-link psc-u-link-cart">
-              <span class="psc-icon psc-icon-cart">
+            <a href="/cart" class="psc-u-nav-link psc-u-link-cart">
+              <i class="psc-icon psc-icon-cart">
               <span class="psc-cart-num J_psc_cart_num" style="display: none;">
               </span>
-              </span>
-            </span>
-            <span href="" class="psc-u-nav-link psc-u-link-search">
-              <span class="psc-icon psc-icon-search"></span>
-            </span>
+              </i>
+            </a>
+            <a href="/search" class="psc-u-nav-link psc-u-link-search">
+              <i class="psc-icon psc-icon-search"></i>
+            </a>
           </div>
+
+
         </div>
       </div>
     </div>
 
     <div class="m-main-tab">
       <ul class="u-scroll-wrapper flexbox">
-        <span href="" class="item active">推荐</span>
-        <span href="" class="item">达人</span>
-        <span href="" class="item">上新</span>
-        <span href="" class="item">晒单</span>
-        <span href="" class="item">HOME</span>
+        <a
+          :href="`/#/shiwu?tab=${tab.tabId}`" class="item"
+          v-for="(tab,index) in dr" :key="index"
+          :class="{active:currintIndex == tab.tabId}"
+        >{{tab.tabName}}</a>
       </ul>
     </div>
 
 
+    <div class="m-main-content" v-for="(sws,index) in arr" :key="index">
+      <div class="m-tpls m-tpls-banner">
+        <a href="">
+          <div class="u-pic">
+            <img :src="sws.picUrl">
+          </div>
+        </a>
+      </div>
 
-  <div class="gd">
-    <div>
-      <div class="m-main-content">
-        <div data-tid="5507" class="m-tpls m-tpls-picker">
+
+      <div v-for="(swa,index) in arr" :key="index">  <!--v-for 优先级比v-if高 -->
+
+        <!--推荐-->
+        <div class="m-tpls m-tpls-picker" v-if="swa.type === 1">
           <a href="" class="u-flexbox">
             <div class="info">
               <div class="u-name">
-          <span class="ava"><img src="https://yanxuan.nosdn.127.net/8b35ae5eb8c014f5a8af7a4dd6eb8736.png?imageView&amp;quality=65&amp;thumbnail=56y56"
-                                 alt="" width="100%" height="100%">
-          </span>
-                <span>选妹</span>
+              <span class="ava">
+                <img :src="swa.avatar" alt="">
+              </span>
+                <span>{{swa.nickname}}</span>
               </div>
-              <div class="title">全国大降温！这些好物让你温暖不止一点点</div>
-              <div class="desc">高能预警！第一波寒潮要来了！据说全国八成地区将在这周末进入速冻状态，吓得选妹赶紧...</div>
+              <div class="title">{{swa.title}}</div>
+              <div class="desc">{{swa.subTitle}}</div>
               <div class="u-rcount">
-                <i class="ico">
-                </i><span>2450人看过</span>
+                <i class="ico"></i>
+                <span>{{swa.readCount}}</span>
               </div>
             </div>
             <div class="u-pic">
-              <img src="https://yanxuan.nosdn.127.net/cfb757f7a433ca31fcd772476060ddbb.jpg?imageView&amp;quality=65&amp;thumbnail=272y272"
-                   alt="" width="100%" height="100%">
+              <img :src="swa.picUrl"
+                   alt="">
             </div>
           </a>
         </div>
-        <div class="m-tpls m-tpls-banner">
+        <!--达人-->
+        <div class="m-tpls m-tpls-rec" v-if="swa.type=== 0 || swa.type === 2">
+          <a href="" class="recs">
+            <div class="info">
+              <div class="u-name">
+              <span class="ava">
+                <img :src="swa.avatar" alt="">
+              </span>
+                <span>{{swa.nickname}}</span>
+              </div>
+              <div class="title">{{swa.title}}</div>
+              <div class="u-rcount">
+                <i class="ico"></i>
+                <span>{{swa.readCount}}人看过</span>
+              </div>
+            </div>
+            <div class="u-pic">
+              <img :src="swa.picUrl" alt="">
+            </div>
+          </a>
+        </div>
+        <!--上新-->
+        <div data-tid="5492" class="m-tpls m-tpls-new" v-if="swa.type === 7 ">
           <a href="">
-            <div class="u-pic">
-              <img
-                src="https://yanxuan.nosdn.127.net/b7db4d98e47a94adda8b4d61bc5f4af0.jpg?imageView&quality=65&thumbnail=690y376"
-                alt="">
-            </div>
+            <div class="title">{{swa.title}}</div>
+            <div class="content">{{swa.subTitle}}</div>
           </a>
+          <ul class="m-gplist" v-if="swa.itemList">
+            <li v-for="(swaa,index) in swa.itemList" v-if="swaa!=null" :key="index">
+              <img
+                :src="swaa.itemUrl"
+                alt="" width="100%" height="100%"></li>
+          </ul>
+          <div class="u-rcount">
+            <i class="ico"></i>
+            <span>{{swa.countPrice}}</span>
+          </div>
         </div>
+        <!--晒单-->
 
-        <div class="m-tpls m-tpls-picker">
-          <a href="" class="u-flexbox">
-            <div class="info">
-              <div class="u-name">
-              <span class="ava">
-                <img
-                  src="https://yanxuan.nosdn.127.net/6311ec4540ebe620ddcd49b10e08a8f6.png?imageView&quality=65&thumbnail=56y56"
-                  alt="">
-              </span>
-                <span>服装组：小服</span>
-              </div>
-              <div class="title">双11忘买羽绒服？没关系，还有双12！</div>
-              <div class="desc">双12时髦保暖羽绒服低至6折</div>
-              <div class="u-rcount">
-                <i class="ico"></i>
-                <span>21.8k人看过</span>
-              </div>
-            </div>
-            <div class="u-pic">
-              <img
-                src="https://yanxuan.nosdn.127.net/affbdf2116ad47ae5fc904b02ab145f6.jpg?imageView&quality=65&thumbnail=272y272"
-                alt="">
-            </div>
-          </a>
-        </div>
-        <div class="m-tpls m-tpls-picker">
-          <a href="" class="u-flexbox">
-            <div class="info">
-              <div class="u-name">
-              <span class="ava">
-                <img
-                  src="https://yanxuan.nosdn.127.net/6311ec4540ebe620ddcd49b10e08a8f6.png?imageView&quality=65&thumbnail=56y56"
-                  alt="">
-              </span>
-                <span>服装组：小服</span>
-              </div>
-              <div class="title">双11忘买羽绒服？没关系，还有双12！</div>
-              <div class="desc">双12时髦保暖羽绒服低至6折</div>
-              <div class="u-rcount">
-                <i class="ico"></i>
-                <span>21.8k人看过</span>
-              </div>
-            </div>
-            <div class="u-pic">
-              <img
-                src="https://yanxuan.nosdn.127.net/affbdf2116ad47ae5fc904b02ab145f6.jpg?imageView&quality=65&thumbnail=272y272"
-                alt="">
-            </div>
-          </a>
-        </div>
+
 
       </div>
 
-    </div>
-    </div>
 
+    </div>
 
   </div>
-
 
 </template>
 
 <script>
+  import {mapState} from 'vuex'
 
-  import BScroll from "better-scroll"
-  import {mapState} from "vuex"
   export default {
-    name: "shiWu",
-    mounted(){
-      new BScroll('.gd', {
-        click: true
-      })
-
-
-      this.$store.dispatch("getSw")
+    data() {
+      return {
+        arr: [],
+      }
     },
-    computed:{
-      ...mapState(["sw"])
-    },
+    name: "shuWu",
     components: {},
-    watch:{
+    mounted() {
+      this.$store.dispatch('getSw')
+      this.$store.dispatch('getDr')
+    },
+    computed: {
+      ...mapState(['sw', "dr", "drs", "sx"]),
+
+
+      currintIndex() {
+        let flag = 9
+        let path = this.$route.fullPath
+        path = path.split("=")[1]
+        if (!path) {
+          return 9
+        }
+        return flag = path
+      }
+
+
+    },
+    watch: {
+
+
+      drs() {
+        this.drs.result.map((item) => {
+          return this.arr.push(item)
+        })
+        return this.arr = this.arr.flat(Infinity)
+      },
+
+      sw() {
+
+        this.sw.map((item) => {
+          item.topics.map((item) => {
+            return this.arr.push(item)
+          })
+        })
+        return this.arr = this.arr.flat(Infinity)
+      },
+
+      sx() {
+        this.sx.result.map((item) => {
+          return this.arr.push(item)
+        })
+        return this.arr = this.arr.flat(Infinity)
+      },
+
+
+      currintIndex() {
+        if (this.currintIndex == 9) {
+
+          this.arr = [];
+          this.$store.dispatch("getSw")
+        } else if (this.currintIndex == 4) {
+
+          this.arr = [];
+          this.$store.dispatch("getDrs")
+        } else if (this.currintIndex == 5) {
+
+          this.arr = [];
+          this.$store.dispatch("getSx")
+        }
+      }
+
 
     }
-
   }
+
+
 </script>
 
 <style>
-  .head{
-    position: fixed ;
+  .head {
+    position: fixed;
     left: 0;
     top: 0;
     z-index: 99;
     width: 100%;
   }
-  .m-tpls-picker{
+
+  .m-tpls-picker {
     position: relative;
   }
-  .u-flexbox{
+
+  .u-flexbox {
     flex-wrap: wrap;
     -webkit-box-pack: justify;
     justify-content: space-between;
   }
-  a{
+
+  a {
     color: inherit;
   }
-  .m-tpls-picker .info{
+
+  .m-tpls-picker .info {
     width: 4rem;
   }
-  .u-name{
+
+  .u-name {
     font-size: .28rem;
     color: #333;
     line-height: .36rem;
@@ -192,7 +246,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .u-name .ava{
+
+  .u-name .ava {
     width: .56rem;
     height: .56rem;
     overflow: hidden;
@@ -201,11 +256,13 @@
     border: .01rem solid #d9d9d9;
     margin-right: .12rem;
   }
-  .u-name span{
+
+  .u-name span {
     display: inline-block;
     vertical-align: middle;
   }
-  .m-tpls-picker .title{
+
+  .m-tpls-picker .title {
     width: 100%;
     font-size: .36rem;
     color: #333;
@@ -218,7 +275,8 @@
     padding-top: .32rem;
     font-family: PingFangSC-Regular;
   }
-  .m-tpls-picker .desc{
+
+  .m-tpls-picker .desc {
     width: 100%;
     white-space: nowrap;
     overflow: hidden;
@@ -228,18 +286,21 @@
     padding-top: .08rem;
     color: #7f7f7f;
   }
-  .m-tpls-picker .u-rcount{
+
+  .m-tpls-picker .u-rcount {
     position: absolute;
     left: .3rem;
     bottom: .26rem;
   }
-  .u-rcount{
+
+  .u-rcount {
     font-size: .22rem;
     color: #999;
     line-height: .32rem;
     margin-top: .18rem;
   }
-  .u-rcount .ico{
+
+  .u-rcount .ico {
     display: inline-block;
     width: .28rem;
     height: .2rem;
@@ -247,22 +308,29 @@
     background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAUCAYAAACeXl35AAAAAXNSR…UMoKOXNwOlsWOfJx60ox9gHljwiyGB1Wn4vYCthn8xPgEMNuuoL/qqaAAAAABJRU5ErkJggg==) no-repeat 0/100%;
     margin-right: .08rem;
   }
-  .u-rcount span{
+
+  .u-rcount span {
     display: inline-block;
     vertical-align: middle;
   }
-  .m-tpls-picker .u-pic{
+
+  .m-tpls-picker .u-pic {
     width: 2.72rem;
     height: 2.72rem;
     position: relative;
     overflow: hidden;
     border-radius: .08rem;
   }
-  .u-pic{
+
+  .u-pic {
     background: #f0f0f0;
   }
-  .u-pic img{
+
+  .u-pic img {
     display: block;
+  }
+
+  .m-tpls-banner {
   }
 
   .psc-m-topbar {
@@ -295,15 +363,21 @@
     height: 1rem;
   }
 
+  .m-main-content {
+    margin-top: 2.1rem;
+  }
+
   .psc-row a {
     text-decoration: none;
     outline: 0;
     -webkit-tap-highlight-color: transparent;
   }
-  .m-main-tab .item.active{
+
+  .m-main-tab .item.active {
     color: #B4282D;
     border-bottom: .01rem solid #B4282D;
   }
+
   .psc-m-topbar .psc-row .psc-icon {
     display: block;
     position: relative;
@@ -425,12 +499,6 @@
     background-repeat: no-repeat;
     background-position: center;
     height: 1rem;
-
-  }
-
-  .m-main-content {
-    padding-top: 160px;
-    overflow: scroll;
 
   }
 
@@ -636,14 +704,509 @@
     color: #b4282d;
     font-weight: bold;
   }
-  .gd{
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width:750px;
-    background-color: #fff;
-    z-index :1
+
+  .m-tpls {
+    width: 100%;
+    background: #fff;
+    margin: .2rem 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: .36rem .3rem;
   }
+
+  a {
+    color: inherit;
+  }
+
+  .m-tpls-new .title {
+    width: 100%;
+    color: #333;
+    font-size: .36rem;
+    line-height: .54rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: PingFangSC-Regular;
+  }
+
+  .m-tpls-new .content {
+    font-size: .28rem;
+    color: #7F7F7F;
+    line-height: .4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    padding-top: .08rem;
+  }
+
+  .m-tpls-new .m-gplist {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin: .24rem 0;
+  }
+
+  .m-tpls-new .m-gplist li {
+    width: 160px;
+    height: 160px;
+    border-radius: .04rem;
+    overflow: hidden;
+    background: #f4f4f4;
+    margin-bottom: 20px;
+  }
+
+  .u-rcount .ico {
+    display: inline-block;
+    width: .28rem;
+    height: .2rem;
+    vertical-align: middle;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAUCAYAAACeXl35AAAAAXNSR…UMoKOXNwOlsWOfJx60ox9gHljwiyGB1Wn4vYCthn8xPgEMNuuoL/qqaAAAAABJRU5ErkJggg==) no-repeat 0/100%;
+    margin-right: .08rem;
+  }
+
+  .u-rcount span {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .m-wrapper[data-v-26c33bf4] {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    padding-top: .37333rem;
+    margin-bottom: .26667rem;
+    padding-bottom: .53333rem;
+  }
+
+  .weex-ct {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-flex-basis: auto;
+    flex-basis: auto;
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+    border: 0 solid black;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .m-titleWrapper[data-v-26c33bf4] {
+    margin-bottom: .32rem;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+
+  .m-titleWrapper[data-v-26c33bf4] {
+    margin-bottom: .32rem;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+
+  .m-partTlt[data-v-26c33bf4] {
+    color: #7f7f7f;
+    font-size: .37333rem;
+    height: .53333rem;
+    line-height: .53333rem;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    font-family: PingFangSC-Light;
+  }
+
+  .weex-text {
+    display: -webkit-box;
+    display: -moz-box;
+    -webkit-box-orient: vertical;
+    position: relative;
+    white-space: pre-wrap;
+    font-size: 0.4266666666666667rem;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
+  .m-recommendArea[data-v-26c33bf4] {
+    max-width: 6rem;
+  }
+
+  .m-commaLeft[data-v-26c33bf4] {
+    position: absolute;
+    left: -.48rem;
+    top: .13333rem;
+    width: .28rem;
+    height: .24rem;
+  }
+
+  .weex-root figure {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+  }
+
+  .m-word[data-v-26c33bf4] {
+    position: relative;
+    max-width: 6rem;
+    lines: 2;
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+    text-align: center;
+    font-size: .42667rem;
+    line-height: .64rem;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+  }
+
+  .m-commaRight[data-v-26c33bf4] {
+    position: absolute;
+    right: -.50667rem;
+    bottom: .08rem;
+    width: .28rem;
+    height: .24rem;
+  }
+
+  .weex-root figure {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+  }
+
+  .m-slider[data-v-26c33bf4] {
+    width: 10rem;
+    height: 3.2rem;
+    margin-top: .42667rem;
+  }
+
+  .weex-scroller-horizontal .weex-scroller-inner {
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-orient: horizontal;
+    height: 100%;
+  }
+
+  .m-rec-slider .weex-scroller-inner {
+    position: absolute;
+  }
+
+  .m-slider .m-look[data-v-26c33bf4]:first-child {
+    margin-left: .4rem;
+  }
+
+  .m-slider .m-look[data-v-26c33bf4] {
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 .13333rem;
+  }
+
+  .m-slider .m-image[data-v-26c33bf4] {
+    width: 3.2rem;
+    height: 3.2rem;
+  }
+
+  .weex-root figure {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+  }
+
+  .m-partTlt[data-v-26c33bf4] {
+    color: #7f7f7f;
+    font-size: .37333rem;
+    height: .53333rem;
+    line-height: .53333rem;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    font-family: PingFangSC-Light;
+  }
+
+  .m-wrapper[data-v-37617678] {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    background-color: #fff;
+    padding-top: .8rem;
+  }
+
+  .m-titleWrapper[data-v-37617678] {
+    margin-bottom: .26667rem;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+
+  .m-partTlt[data-v-37617678] {
+    color: #333;
+    font-size: .42667rem;
+    height: .45333rem;
+    line-height: .45333rem;
+    margin: 0 .26667rem;
+    font-weight: 700;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+
+  .m-tabWrapper[data-v-37617678] {
+    width: 10rem;
+    height: 1.76rem;
+    padding-top: .32rem;
+  }
+
+  .m-fixedTab[data-v-37617678], .m-tab[data-v-37617678] {
+    width: 10rem;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    top: 0;
+    background-color: #fff;
+  }
+
+  .m-tabItem[data-v-37617678] {
+    width: 2.29333rem;
+    height: 1.6rem;
+    margin: 0 .32rem;
+    padding: .42667rem 0;
+  }
+
+  .weex-ct {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    /* flex-shrink: 0; */
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-flex-basis: auto;
+    flex-basis: auto;
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+    border: 0 solid black;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .m-tabTxt-active[data-v-37617678] {
+    background-color: #ffe4af;
+    color: #b0955f;
+    font-weight: 700;
+  }
+
+  .m-tabTxt[data-v-37617678] {
+    width: 2.29333rem;
+    height: .74667rem;
+    border-radius: 4px;
+    line-height: .74667rem;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: .37333rem;
+    color: #333;
+    background-color: #f4f4f4;
+    font-family: PingFangSC-Light;
+  }
+
+  .m-tabItem[data-v-37617678] {
+    width: 2.29333rem;
+    height: 1.6rem;
+    margin: 0 .32rem;
+    padding: .42667rem 0;
+  }
+
+  .m-tabTxt[data-v-37617678] {
+    width: 2.29333rem;
+    height: .74667rem;
+    border-radius: 4px;
+    line-height: .74667rem;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: .37333rem;
+    color: #333;
+    background-color: #f4f4f4;
+    font-family: PingFangSC-Light;
+  }
+
+  .m-lookImageWrapper[data-v-17e3c4b9] {
+    position: relative;
+    background-color: #f2f2f2;
+  }
+
+  .weex-ct {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-shrink: 0;
+    /* flex-shrink: 0; */
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-flex-basis: auto;
+    flex-basis: auto;
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+    -webkit-align-content: flex-start;
+    align-content: flex-start;
+    border: 0 solid black;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .m-lookDesc[data-v-17e3c4b9], .m-lookDetail[data-v-17e3c4b9] {
+    width: 4.57333rem;
+    box-sizing: border-box;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    background-color: #fff;
+  }
+
+  .m-lookDesc[data-v-17e3c4b9] {
+    padding: .24rem .21333rem 0;
+    color: #333;
+    font-size: .32rem;
+    line-height: .48rem;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    lines: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+  }
+
+  .m-lookDesc[data-v-17e3c4b9], .m-lookDetail[data-v-17e3c4b9] {
+    width: 4.57333rem;
+    box-sizing: border-box;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    background-color: #fff;
+  }
+
+  .m-userpic[data-v-17e3c4b9] {
+    width: .64rem;
+    height: .64rem;
+    box-sizing: border-box;
+    border-radius: 24px;
+    border: 1px solid #dbdbdb;
+  }
+
+  .weex-root figure {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+  }
+
+  .m-userName[data-v-17e3c4b9] {
+    width: 1.6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: .32rem;
+    color: #7f7f7f;
+    height: .64rem;
+    line-height: .64rem;
+    margin-left: .10667rem;
+  }
+
+  .weex-text {
+    display: -webkit-box;
+    display: -moz-box;
+    -webkit-box-orient: vertical;
+    position: relative;
+    white-space: pre-wrap;
+    font-size: 0.4266666666666667rem;
+    word-wrap: break-word;
+    overflow: hidden;
+  }
+
+  .m-upArea[data-v-17e3c4b9] {
+    width: 1.33333rem;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .m-upText[data-v-17e3c4b9] {
+    font-size: .32rem;
+    color: #7f7f7f;
+    width: 1.2rem;
+    text-align: right;
+    height: .64rem;
+    line-height: .64rem;
+    margin-right: .02667rem;
+  }
+
+  .m-hand[data-v-17e3c4b9] {
+    display: block;
+    width: .37333rem;
+    height: .37333rem;
+  }
+
+  .weex-root figure {
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+  }
+
 
 </style>

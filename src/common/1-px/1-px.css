@@ -1,0 +1,8 @@
+/*公共样式*/
+.clearFix::after {
+  content: '';
+  display: block;
+  clear: both;
+  zoom: 1;
+}
+/*# sourceMappingURL=1-px.css.map */

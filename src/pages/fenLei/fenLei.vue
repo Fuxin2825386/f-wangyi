@@ -15,7 +15,7 @@
     <!--左边-->
     <div class="m-cateNavVertWrap" style="left:0; ">
       <ul id="j-cateNav" class="m-cateNavVert">
-        <li class="item" :class="{active:clearIndex===index}" v-for="(fls,index) in fl" :key="fls.di" @click="dj(index)">
+        <li class="item" :class="{active:clearIndex===index}" v-for="(fls,index) in fl" :key="fls.id" @click="dj(index)">
           <a class="txt">{{fls.name}}</a>
         <li/>
       </ul>

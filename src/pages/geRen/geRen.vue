@@ -29,7 +29,7 @@
           <div class="w-button w-button-xl w-button-block w-button-ghostRed">
             <i class="u-icon u-icon-loginMail" ></i>
             <span>邮箱帐号登录</span></div>
-          <div class="btn" ><span >手机号快捷注册</span>
+          <div class="btn" ><span  @click="zc('/logo')">手机号快捷注册</span>
             <i class="u-icon u-icon-arrow-right3" ></i></div>
         </div>
       </div>
@@ -56,9 +56,13 @@
 
 <script>
 
-
   export default {
-    components: {}
+    components: {},
+    methods:{
+      zc(path){
+        this.$router.replace(path)
+      }
+  }
   }
 </script>
 

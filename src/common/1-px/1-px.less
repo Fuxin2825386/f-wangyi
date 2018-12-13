@@ -1,0 +1,52 @@
+@green: #02a774;
+@yellow: #F5A100;
+@bc: #e4e4e4;
+
+.1-px-top(@color:red){
+  position: relative;
+&:after{
+  position: absolute;
+  content: "";
+  display: block;
+  top: 0;
+  width: 100%;
+  height: 1.5px;
+  background: @color;
+  @media (-webkit-device-pixel-ratio:2 ){
+    transform: scaleY(.5);
+  };
+  @media (-webkit-device-pixel-ratio:3 ){
+    transform: scaleY(.333333333333);
+  }
+}
+}
+
+
+.1-px-button(@color:red){
+  position: relative;
+&:after{
+  position: absolute;
+  content: "";
+  display: block;
+  bottom: 0;
+  width: 100%;
+  height: 1.1px;
+  background: @color;
+  @media (-webkit-device-pixel-ratio:2 ){
+    transform: scaleY(.5);
+  };
+  @media (-webkit-device-pixel-ratio:3 ){
+    transform: scaleY(.33333333333333333333333333);
+  }
+}
+}
+
+/*公共样式*/
+
+//清除浮动
+.clearFix::after{
+  content :'';
+  display:block;
+  clear:both;
+  zoom:1;
+}

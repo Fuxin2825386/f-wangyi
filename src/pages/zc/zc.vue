@@ -1,344 +1,288 @@
 <template>
-  <div class="loginContainer">
-    <div class="loginInner">
-      <div class="login_header">
-        <h2 class="login_logo">硅谷外卖</h2>
-        <div class="login_header_title">
-          <a href="javascript:;" @click="setLoginWay(true)" :class="{on: loginWay}">短信登录</a>
-          <a href="javascript:;" @click="setLoginWay(false)" :class="{on: !loginWay}">密码登录</a>
+  <div class="wrap ">
+      <div class="header" >
+        <div>
+          <i href="" class="iconfont icon-fangzi"></i>
+        </div>
+        <div>
+          <a href=""></a>
+        </div>
+        <div>
+          <i href="" class="iconfont icon-sousuo-copy"></i>
+          <i href="" class="iconfont icon-gouwuche1"></i>
         </div>
       </div>
-      <div class="login_content">
-        <form @submit.prevent="login">
-          <div :class="{on: loginWay}">
-            <section class="login_message">
-              <input type="tel" maxlength="11" placeholder="手机号" v-model="phone">
-              <button class="get_verification"
-                      v-if="!computedTime"
-                      :class="{right_phone_number:rightPhoneNumber}"
-                      @click.prevent="getVerifyCode">获取验证码
-              </button>
-              <button disabled="disabled" class="get_verification" v-else>已发送({{computedTime}}s)</button>
-            </section>
-            <section class="login_verification">
-              <input type="text" maxlength="8" placeholder="验证码" v-model="code">
-            </section>
-            <section class="login_hint">
-              温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
-              <a href="javascript:;">《用户服务协议》</a>
-            </section>
+      <div class="content clearFix">
+        <h1 class="title">手机号注册</h1>
+        <div class="from-y clearFix">
+          <div class="input-a">
+            <label>
+              <input type="text" maxlength="11" placeholder="手机号" v-model="phone">
+            </label>
           </div>
-          <div :class="{on: !loginWay}">
-            <section>
-              <section class="login_message">
-                <input type="text" maxlength="11" placeholder="手机/邮箱/用户名" v-model="name">
-              </section>
-              <section class="login_verification">
-                <input type="password" placeholder="密码" v-model="pwd" v-if="!showPassword">
-                <input type="text" placeholder="密码" v-model="pwd" v-else>
-
-                <div class="switch_button" :class="showPassword ? 'on' : 'off'"
-                     @click="changePassWordType">
-                  <div class="switch_circle" :class="{right: showPassword}"></div>
-                  <span class="switch_text">{{showPassword?'abc':''}}</span>
-                </div>
-
-              </section>
-              <section class="login_message">
-                <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                <img ref="captcha" class="get_verification" src="http://localhost:5000/captcha" alt="captcha" @click="getCaptchaCode">
-              </section>
-            </section>
+          <div class="input-b">
+            <label>
+              <input type="text" maxlength="6" placeholder="请输入短信验证密码">
+            </label>
+            <div class="yan-z">
+              <button
+                @click.prevent="yz"
+                :disabled="!rightPhoneNumber || timeIndex > 0"
+                :class="{right_phone_number:rightPhoneNumber}">{{timeIndex > 0?`已发送(${timeIndex}s)`:'获取验证密码'}}</button>
+            </div>
           </div>
-          <input type="submit" value="登录" class="login_submit"></input>
-        </form>
-        <a href="javascript:;" class="about_us">关于我们</a>
+          <div class="input-c">
+            <label>
+              <input type="text" placeholder="请输入密码">
+            </label>
+          </div>
+          <div class="btn">
+            <a href="javascript:;">注册</a>
+          </div>
+          <div class="xie-y">
+            <label>
+              <input type="checkbox" checked>我同意<a href="">《服务条款》</a>和<a href="">《网易隐私政策》</a>
+            </label>
+          </div>
+          <div class="you-x">
+            <label>
+              <span @click="$router.replace('/geren')">邮箱账号注册</span>
+              <i class="iconfont icon-youjiantou"></i>
+            </label>
+
+          </div>
+        </div>
       </div>
-      <span href="javascript:" class="go_back" @click="$router.back()">
-        <i class="iconfont icon-jiantou2"></i>
-      </span>
-    </div>
-    <alert-tip v-if="showAlert"
-               @closeTip="closeTip"
-               :alertText="alertText"/>
   </div>
-</template>
+  </template>
+
+
 
 <script>
   import {mapActions} from 'vuex'
-  import {reqCaptchas, sendCode, smsLogin, pwdLogin} from '../../api'
+  import {reqSendCode, smsLogin, pwdLogin} from '../../api/index'
   import AlertTip from '../../components/AlertTip/AlertTip.vue'
-
+  import {Toast,MessageBox} from "mint-ui"
   export default {
-    data() {
-      return {
-        loginWay: false, //登录方式，false代表密码登录, true代表短信登陆
-        showPassword: false, // 是否显示密码
-        computedTime: 0, //倒数记时
-        phone: '', //电话号码
-        code: '', //短信验证码
-        name: '', //用户名
-        pwd: '', //密码
-        captcha: '', // 验证码
-        captchaImg: null, //验证码图片
-        showAlert: false, //显示提示组件
-        alertText: null, //提示的内容
-      }
-    },
-
-    computed: {
-      //判断手机号码
-      rightPhoneNumber: function () {
-        return /^1\d{10}$/.test(this.phone)
-      }
-    },
-
-    methods: {
-      ...mapActions([
-        'recordUserInfo',
-      ]),
-
-      // 设置登录方式
-      setLoginWay(loginWay) {
-        this.loginWay = loginWay
-      },
-      //是否显示密码
-      changePassWordType() {
-        this.showPassword = !this.showPassword
-      },
-      // 获取图形验证码
-      getCaptchaCode() {
-        this.$refs.captcha.src = 'http://localhost:4000/captcha?time='+new Date()
-      },
-
-      // 获取短信验证码
-      async getVerifyCode() {
-        if (this.rightPhoneNumber) {
-          this.computedTime = 30
-          this.intervalId = setInterval(() => {
-            this.computedTime--
-            if (this.computedTime == 0) {
-              clearInterval(this.intervalId)
-            }
-          }, 1000)
-          //发送短信验证码
-          let result = await sendCode(this.phone)
-          if (result.code===1) {
-            this.showAlert = true
-            this.alertText = result.msg
-          }
-        }
-      },
-
-      // 发送登录信息
-      async login() {
-        // debugger
-        if (this.loginWay) {
-          if (!this.phone) {
-            this.showAlert = true;
-            this.alertText = '手机号码不正确'
-            return
-          } else if (!(/^\d{6}$/gi.test(this.code))) {
-            this.showAlert = true;
-            this.alertText = '短信验证码不正确'
-            return
-          }
-
-          //手机号短信登录
-          const result = await smsLogin(this.phone, this.code);
-          if(result.code===0) {
-            this.userInfo = result.data
-          } else {
-            this.userInfo = {
-              msg: '登陆失败, 手机号或验证不正确'
-            }
-          }
-
-        } else {
-          if (!this.name) {
-            this.showAlert = true
-            this.alertText = '请输入手机号/邮箱/用户名'
-            return
-          } else if (!this.pwd) {
-            this.showAlert = true;
-            this.alertText = '请输入密码'
-            return
-          } else if (!this.captcha) {
-            this.showAlert = true
-            this.alertText = '请输入验证码'
-            return
-          }
-
-          //用户名登录
-          const result = await pwdLogin(this.name, this.pwd, this.captcha)
-          if(result.code===0) {
-            this.userInfo = result.data
-          } else {
-            this.userInfo = {
-              msg: result.msg
-            }
-          }
-        }
-        //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
-        if (!this.userInfo._id) {
-          this.showAlert = true
-          this.alertText = this.userInfo.msg
-          if (!this.loginWay) {
-            this.getCaptchaCode()
-          }
-        } else {
-          this.recordUserInfo(this.userInfo)
-          this.$router.back()
-        }
-      },
-      // 关系提示框
-      closeTip() {
-        this.showAlert = false
-      }
-    },
 
     components: {
       AlertTip
+    },
+    data(){
+      return {
+        timeIndex:0, //倒计时
+        phone:"",//电话号码
+        showAlert:false, //显示提示组件
+        alertText:null, //提示内容
+      }
+
+    },
+    computed:{
+      //判断手机号码
+      rightPhoneNumber:function () {
+        return /^1\d{10}$/.test(this.phone)
+      }
+    },
+    methods:{
+      //获取短信
+     async yz(){
+        //开始倒计时
+        this.timeIndex =30
+        //启动循环器
+        const tiemId = setInterval(()=>{
+          this.timeIndex--;
+          //判断 一旦时间到了,清除定时器
+          if(this.timeIndex <= 0){
+            this.timeIndex = 0
+            clearInterval(tiemId)
+          }
+        },1000)
+
+        //发送ajax请求
+       const result = await reqSendCode(this.phone)
+       if(result.code === 0){//发送验证码成功
+          Toast("验证码已发送")
+       }else {//发送验证码失败
+         //发送失败把定时器停下来
+        this.timeIndex = 0
+
+         //发送验证码失败
+         MessageBox.alert("发送验证码失败")
+       }
+      }
     }
   }
+
+
 </script>
+<style lang="less" type="text/less" scoped>
+  @import "../../common/1-px/1-px.less";
 
-<style lang="stylus" rel="stylesheet/stylus" scoped>
-  @import "../../common/stylus/minxins.styl"
-  .loginContainer
-    width 100%
-    height 100%
-    background #fff
-    .loginInner
-      padding-top 60px
-      width 80%
-      margin 0 auto
-      .login_header
-        .login_logo
-          font-size 40px
-          font-weight bold
-          color #02a774
-          text-align center
-        .login_header_title
-          padding-top 40px
-          text-align center
-          > a
-            color #333
-            font-size 14px
-            padding-bottom 4px
-            &:first-child
-              margin-right 40px
-            &.on
-              color #02a774
-              font-weight 700
-              border-bottom 2px solid #02a774
-      .login_content
-        > form
-          > div
-            display none
-            &.on
-              display block
-            input
-              width 100%
-              height 100%
-              padding-left 10px
-              box-sizing border-box
-              border 1px solid #ddd
-              border-radius 4px
-              outline 0
-              font 400 14px Arial
-              &:focus
-                border 1px solid #02a774
-            .login_message
-              position relative
-              margin-top 16px
-              height 48px
-              font-size 14px
-              background #fff
-              .get_verification
-                position absolute
-                top 50%
-                right 10px
-                transform translateY(-50%)
-                border 0
-                color #ccc
-                font-size 14px
-                background transparent
-                &.right_phone_number
-                  color #000
-            .login_verification
-              position relative
-              margin-top 16px
-              height 48px
-              font-size 14px
-              background #fff
-              .switch_button
-                font-size 12px
-                border 1px solid #ddd
-                border-radius 8px
-                transition background-color .3s, border-color .3s
-                padding 0 6px
-                width 30px
-                height 16px
-                line-height 16px
-                color #fff
-                position absolute
-                top 50%
-                right 10px
-                transform translateY(-50%)
-                &.off
-                  background #fff
-                  .switch_text
-                    float right
-                    color #ddd
-                &.on
-                  background #02a774
-                > .switch_circle
-                  position absolute
-                  top -1px
-                  left -1px
-                  width 16px
-                  height 16px
-                  border 1px solid #ddd
-                  border-radius 50%
-                  background #fff
-                  box-shadow 0 2px 4px 0 rgba(0, 0, 0, .1)
-                  transition transform .3s
-                  &.right
-                    transform translateX(27px)
+  .wrap{
+    width: 100%;
+  .header{
+    display: flex;
+    justify-content: space-around;
+    div{
+      height: 120px;
+      line-height: 120px;
+      .iconfont{
+        font-size: 65px;
+        color:  rgba(100,100,100,8);
+      }
+    }
+    div:nth-child(1){
+      > i{
+        margin-left: 20px;
+        vertical-align: middle;
+        font-size: 70px;
+      }
+    }
+    div:nth-child(2){
+     width: 400px;
+      a{
+       background: url("images/01.png") no-repeat 160px -118px;
+        background-size: 2.29333rem 5.6rem;;
+        display: inline-block;
+        vertical-align: middle;
+        height: 80px;
+        width: 500px;
+      }
+    }
+    div:nth-child(3){
+     > i{
+        margin-right: 20px;
+        vertical-align: middle;
+      }
+    }
+    .1-px-button(rgba(210,210,210,4))
+  }
+  .content{
+    height: 120px;
+    line-height: 120px;
+    .title{
+      font-size:35px;
+      text-align: center;
+    }
+    .from-y{
+      width: 650px;
+      /*border: 1px solid red;*/
+      margin: 70px auto;
+      .input-a,.input-b,.input-c{
+        padding-top: 5px;
+        label{
+          padding-top: 5px;
+          input{
+            width: 100%;
+            height: 100%;
+            position: relative;
+            top: 10px;
+            font-size: 28px;
+            outline: none;
+            opacity: 0.8;
+            padding-left: 20px;
+          }
+        }
+        .yan-z{
+          position: absolute;
+          right: 0.22rem;
+          top: 50px;
+          z-index: 100;
+          > button{
+              display: block;
+              width: 2.3rem;
+              height: 0.75rem;
+              text-align: center;
+              font-size: 20px;
+              background: #fff;
+              line-height: 0.75rem;
+              border: 1.5px solid #7F7F7F;
+              border-radius: 15px;
+              outline: none;
+          }
+        }
+       .1-px-button(rgba(210,210,210,4))
+      }
+      .input-a{
 
-            .login_hint
-              margin-top 12px
-              color #999
-              font-size 14px
-              line-height 20px
-              > a
-                color #02a774
-          .login_submit
-            display block
-            width 100%
-            height 42px
-            margin-top 30px
-            border-radius 4px
-            background #4cd96f
-            color #fff
-            text-align center
-            font-size 16px
-            line-height 42px
-            border 0
-        .about_us
-          display block
-          font-size 12px
-          margin-top 20px
-          text-align center
-          color #999
-      .go_back
-        position absolute
-        top 5px
-        left 5px
-        width 30px
-        height 30px
-        > .iconfont
-          font-size 20px
-          color #999
+      }
+      .input-b{
+
+      }
+      .input-c{
+
+      }
+      .btn{
+        margin: 0.426rem 0 0.313rem;
+        background: #b4282d;
+        border-radius: 5px;
+        a{
+          font-size: 20px;
+          color: white;
+          text-align: center;
+          width: 100%;
+          height: 100px;
+          display: block;
+          line-height: 100px;
+        }
+      }
+      .xie-y{
+       > label{
+         display: block;
+         margin-top: -40px;
+         > input{
+           vertical-align: middle;
+           position: relative;
+           top: -3px;
+           width: 30px;
+           height: 30px;
+           display: inline-block;
+           border: 1px silver solid;
+          }
+         > a{
+           color: #5fbfff;
+         }
+        }
+      }
+      .you-x{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        label{
+          position: relative;
+          top: -30px;
+          display: inline-block;
+          > span{
+            display: inline-block;
+            text-align: center;
+          }
+          > i{
+            vertical-align: middle;
+            font-size: 40px;
+          }
+        }
+
+      }
+    }
+  }
+
+}
+
+
+  .get_verification{
+    position :absolute;
+    top :50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border: 0;
+    color: #ccc;
+    font-size: 14px;
+    background: transparent;
+  }
+  .right_phone_number{
+    color:black;
+  }
+
+
+
 </style>

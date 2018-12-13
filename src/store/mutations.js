@@ -11,8 +11,17 @@ import {
   RECEIVE_XR,
 
 
+
   //分类信息
-  RECEIVE_FL
+  RECEIVE_FL,
+
+  //达人信息
+  RECEIVE_SW,
+  RECEIVE_DR,
+  RECEIVE_DRS,
+  RECEIVE_SX
+
+
 
 
 } from "./mutation-type"
@@ -44,6 +53,26 @@ export  default{
   [RECEIVE_FL](state,fl){
     state.fl = fl
   },
+
+
+
+
+  [RECEIVE_SW](state,sw){
+    state.sw = sw
+  },
+
+  [RECEIVE_DR](state,dr){
+    state.dr = dr
+  },
+
+  [RECEIVE_DRS](state,{drs}){
+    state.drs = drs
+  },
+
+  [RECEIVE_SX](state,{sx}){
+    state.sx = sx
+  },
+
 
 
 
